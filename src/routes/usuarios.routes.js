@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { json, Router } from 'express';
 import UsersRepository from '../models/users/UsersRepository.js';
 
 const usuariosRoutes = Router();
@@ -27,4 +27,46 @@ usuariosRoutes.post("/", (req,res) => {
       usuario,
     });
 });
+
+
+usuariosRoutes.get("/:id", (req,res) => {
+  const { id } = req.params;
+
+  const user = usersRepository.getUserById(id)
+
+  if(!user) {
+    return res.status(404).json({
+      message: `Usuario com id ${id} não encontrado!`
+    })
+  }
+
+  return res.status(201).json({
+    message: `Usuario encontrado com o id ${id} encontrado com sucesso`,
+    user
+  })
+});
+
+usuariosRoutes.put("/:id", (req,res) => {
+  const { id } = req.params;
+  const { name, email, password } = req.body;
+
+  const user = usersRepository.updateUser(id, name, email, password);
+
+  if(!user) {
+    return res.status(404).json({
+      message: `Usuario com id ${id} não encontrado!`
+    })
+  }
+
+  return res.status(200).json({
+    message: `Usuario com o id ${id} atualizado com sucesso`,
+    user,
+  })
+});
+
+usuariosRoutes.delete("/:id", (req,res) => {
+
+});
+
+
 export default usuariosRoutes;
