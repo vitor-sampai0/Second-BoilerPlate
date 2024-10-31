@@ -4,7 +4,6 @@ const usuariosRoutes = Router();
 
 let usuarios = [];
 
-
 usuariosRoutes.get("/", (req, res) => {
   return res.status(200).json({
     message : usuarios.length == 0 
